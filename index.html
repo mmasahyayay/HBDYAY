@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      font-family: 'Quicksand', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      max-width: 600px;
+      width: 100%;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      color: #d81b60;
+      font-size: 2.2rem;
+    }
+
+    p {
+      color: #4a4a4a;
+      font-size: 1.1rem;
+    }
+
+    /* Typing Animation Style */
+    .typing-text {
+      font-family: 'Fredoka One', cursive;
+      color: #d81b60;
+      font-size: 2.5rem;
+      border-right: 3px solid #d81b60;
+      white-space: nowrap;
+      overflow: hidden;
+      margin: 0 auto;
+      width: 0;
+      animation: typing 3s steps(20, end) forwards, blink 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      from, to { border-color: transparent; }
+      50% { border-color: #d81b60; }
+    }
+
+    /* Cute Envelope Styling */
+    .envelope-wrapper {
+      position: relative;
+      width: 280px;
+      height: 180px;
+      background-color: #f06292;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      margin: 30px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s ease;
+    }
+
+    .envelope-wrapper:hover {
+      transform: scale(1.03);
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 140px solid transparent;
+      border-right: 140px solid transparent;
+      border-top: 100px solid #ec407a;
+      transform-origin: top;
+      transition: transform 0.4s ease;
+      z-index: 2;
+    }
+
+    .envelope-wrapper.open .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    .letter {
+      position: absolute;
+      bottom: 10px;
+      width: 90%;
+      height: 80%;
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.5s ease;
+      z-index: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .envelope-wrapper.open .letter {
+      transform: translateY(-50px);
+      z-index: 3;
+    }
+
+    /* Images */
+    .clickable-img {
+      max-width: 260px;
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .clickable-img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Buttons */
+    .btn {
+      background-color: #d81b60;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #ad1457;
+      transform: translateY(-2px);
+    }
+
+    .btn-small {
+      font-size: 0.85rem;
+      padding: 8px 16px;
+      margin-top: 15px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="screen1" class="screen active">
+    <div class="typing-text">Happy Birthday! ✨</div>
+    <button class="btn btn-small" onclick="nextScreen(2)" style="margin-top: 40px;">click to continue ✨</button>
+  </div>
+
+  <div id="screen2" class="screen">
+    <h1>A special note for you 💌</h1>
+    <p>Click the envelope to open it!</p>
+    
+    <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+      <div class="envelope-flap"></div>
+      <div class="letter">
+        <p style="font-size: 0.95rem; color: #333;">
+          Happy Birthdayyyy to my fav fetus!!! jokes aside, having u in my life is truly a blessing and im soso grateful to have met u. youve never failed to make me laugh which is why i hope u never doubt ur worth no matter what bc ur truly the sweetest person everrrr
+        </p>
+      </div>
+    </div>
+
+    <button class="btn btn-small" onclick="nextScreen(3)" id="envNextBtn" style="display: none;">click to continue ✨</button>
+  </div>
+
+  <div id="screen3" class="screen">
+    <h1>🎁 Here's your gift! 🎁</h1>
+    <p>Click to open...</p>
+    <img src="gift-box.png" alt="Gift Box" class="clickable-img" onclick="triggerConfettiAndNext(4)">
+  </div>
+
+  <div id="screen4" class="screen">
+    <h1>Ta-da! Your Idol! 🎀</h1>
+    <img src="idol-ribbon.png" alt="Idol with Ribbon" class="clickable-img">
+    <button class="btn btn-small" onclick="nextScreen(5)">click to continue ✨</button>
+  </div>
+
+  <div id="screen5" class="screen">
+    <h1>Did you really think that was it? 😏</h1>
+    <button class="btn btn-small" onclick="triggerConfettiAndNext(6)">Click for the REAL gift 🍵</button>
+  </div>
+
+  <div id="screen6" class="screen">
+    <h1>Here he is delivering your matcha! 🍵✨</h1>
+    <img src="idol-matcha.png" alt="Idol holding Matcha" class="clickable-img">
+    <button class="btn btn-small" onclick="nextScreen(7)">click to continue ✨</button>
+  </div>
+
+  <div id="screen7" class="screen">
+    <h1>I hope you loved your gift! 🥳💕</h1>
+    <p>Have the best birthday ever!</p>
+    <button class="btn" onclick="triggerConfetti()">Celebrate again! 🎉</button>
+  </div>
+
+  <script>
+    function nextScreen(screenNumber) {
+      document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+      });
+      document.getElementById('screen' + screenNumber).classList.add('active');
+    }
+
+    function openEnvelope() {
+      const env = document.getElementById('envelope');
+      env.classList.add('open');
+      document.getElementById('envNextBtn').style.display = 'inline-block';
+      triggerConfetti();
+    }
+
+    function triggerConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function triggerConfettiAndNext(screenNumber) {
+      triggerConfetti();
+      nextScreen(screenNumber);
+    }
+  </script>
+</body>
+</html>
